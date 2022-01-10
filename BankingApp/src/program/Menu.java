@@ -4,10 +4,14 @@ import java.util.Scanner;
 
 /**
  * Handles UI interactions such as displaying user options
+ *
+ * 3 menus
+ *  - Main: Allow user to log in, create user or exit
+ *  - Account Holder: When user has logged in they may create and manage account(s) or exit
+ *  - Account Menu: When an account is selected, a user may deposit and withdraw funds, check balance or exit back to account holder menu
  */
 
 public class Menu {
-
     /**
      * Displays a message and list of options for user to select
      * @param message
@@ -17,6 +21,71 @@ public class Menu {
      * @return
      * int representing the index of the option the user selected
      */
+
+    User currentUser = null;
+    Account currentAccount = null;
+
+    String message = "What would you like to do?";
+    String[][] options = {
+            {
+                    "Register User",
+                    "Login",
+                    "Exit"
+            },
+            {
+                    "Create Account",
+                    "Manage Account",
+                    "Log out"
+            },
+            {
+                    "Deposit",
+                    "Withdraw",
+                    "Check Balance",
+                    "Exit"
+            }
+    };
+
+    public void runMenu(){
+        while(true) {
+            int menuIndex;
+            if (currentUser == null)
+                menuIndex = 0;
+            else if (currentAccount == null)
+                menuIndex = 1;
+            else
+                menuIndex = 2;
+            String[] optionList = this.options[menuIndex];
+            int selection = getSelection(message, optionList);
+
+            setCurrentUser(null);
+        }
+    }
+
+    public void runMainOptions(int option){
+        switch (option){
+            // Create new User
+            case 0:
+                String s = getString("Provide a name for the new account");
+
+                break;
+            // Login
+            case 1:
+                break;
+            // Exit program
+            default:
+                System.exit(0);
+                break;
+        }
+    }
+
+    public void setCurrentUser(User user){
+        currentUser = user;
+    }
+
+    public void setCurrentAccount(Account account){
+        currentAccount = account;
+    }
+
     public int getSelection(String message, String[] options){
         Scanner scanner = new Scanner(System.in);
 
@@ -38,5 +107,11 @@ public class Menu {
         }
 
         return response - 1;
+    }
+
+    public String getString(String message){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(message);
+        return scanner.next();
     }
 }
