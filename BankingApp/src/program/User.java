@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class User {
     private final String username;
-    private final String password;
+    public final String password;
     private final List<Account> accounts = new List<>();
 
     // User needs a password
@@ -19,7 +19,8 @@ public class User {
     }
 
     public boolean checkPassword(String password){
-        return Objects.equals(this.password, password);
+        return Objects.deepEquals(this.password, password);
+//        return Objects.equals(this.password, password);
     }
 
     public String getUsername() {

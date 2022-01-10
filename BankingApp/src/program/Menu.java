@@ -1,5 +1,7 @@
 package program;
 
+import data.MockDb;
+
 import java.util.Scanner;
 
 /**
@@ -14,6 +16,7 @@ import java.util.Scanner;
 public class Menu {
     User currentUser = null;
     Account currentAccount = null;
+    final MockDb db = new MockDb();
 
     String message = "What would you like to do?";
     String[][] options = {
@@ -67,10 +70,20 @@ public class Menu {
             case 0 -> {
                 String userName = getString("Provide a name for the new user");
                 String p = getString("Enter a password");
-                setCurrentUser(new User(userName, p));
+                User u = new User(userName, p);
+                db.addUser(u);
+                setCurrentUser(u);
             }
             // Login
-            case 1 -> System.out.println("Need a mock data layer for this to work");
+            case 1 -> {
+                String username = getString("Enter username");
+                String password = getString("Enter password");
+                User u = db.login(username, password);
+//                User u = (User) o;
+                if(u == null)
+                    System.out.println("login rejected");
+                setCurrentUser(u);
+            }
 
             // Exit program
             default -> System.exit(0);
