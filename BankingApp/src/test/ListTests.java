@@ -8,7 +8,7 @@ import program.List;
 import program.User;
 
 public class ListTests {
-    static List list;
+    static List<Account> list;
     User user = new User("name", "pass");
     String[] accountNames = {
             "checking",
@@ -36,7 +36,7 @@ public class ListTests {
 
     @BeforeEach
     public void init(){
-        list = new List();
+        list = new List<>();
     }
 
     @Test
@@ -47,27 +47,26 @@ public class ListTests {
     }
 
     @Test
-    public void testGetAccountMethods(){
+    public void testGetAccountsMethod(){
         list.push(accounts[0]);
         list.push(accounts[1]);
 
-        Account testAccount = list.getAccount(accountNames[1]);
-        assertNotNull(testAccount);
-
-        Account[] testArr = list.getAccounts();
+        Object[] testArr = list.getItems();
         assertNotNull(testArr);
         assertEquals(testArr.length, 2);
+
+        assertNotNull(testArr[0]);
+        assertNotNull(testArr[1]);
     }
 
     @Test
     public void testRemoveAccount(){
         Account test;
-        test = list.removeAccount(accountNames[0]);
+        test = list.removeItem(0);
         assertNull(test);
         list.push(accounts[0]);
-        test = list.removeAccount(accountNames[0]);
+        test = list.removeItem(0);
 
         assertNotNull(test);
-        assertTrue(test instanceof Account);
     }
 }

@@ -43,17 +43,19 @@ public class Menu {
                 menuIndex = 1;
             else
                 menuIndex = 2;
+
+            if(menuIndex == 2){
+                System.out.println("Current Account");
+                System.out.println(currentAccount);
+            }
+
             String[] optionList = this.options[menuIndex];
             int selection = getSelection(message, optionList);
 
             // Create methods for the other 2 menus
             switch (menuIndex) {
                 case 1 -> runUserOptions(selection);
-                case 2 -> {
-                    System.out.println("Current Account");
-                    System.out.println(currentAccount);
-                    runAccountOptions(selection);
-                }
+                case 2 -> runAccountOptions(selection);
                 default -> runMainOptions(selection);
             }
         }
