@@ -35,7 +35,7 @@ public class ListTests {
 
 
     @BeforeEach
-    public static void init(){
+    public void init(){
         list = new List();
     }
 
@@ -44,18 +44,6 @@ public class ListTests {
         list.push(accounts[0]);
         Account test = list.pop();
         assertNotNull(test);
-    }
-
-    @Test
-    public void testGetAccountNames(){
-        for(Account a : accounts){
-            list.push(a);
-        }
-        String[] stringArr = list.getAccountNames();
-
-        assertTrue(stringArr.length == accounts.length);
-        assertEquals(stringArr[0], "checking");
-        assertEquals(stringArr[stringArr.length - 1], "Stocks");
     }
 
     @Test
