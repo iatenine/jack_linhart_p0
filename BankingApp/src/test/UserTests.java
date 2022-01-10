@@ -20,6 +20,7 @@ public class UserTests {
     public static void initStuff(){
         user = new User(username, password);
         assertNotNull(user);
+
     }
 
     @Test
@@ -41,8 +42,6 @@ public class UserTests {
 
         result = user.checkPassword(" " + password);
         assertFalse(result);
-
-        System.out.println("Password test passed");
     }
 
     @Test

@@ -9,7 +9,6 @@ public class MockDb {
     final private List<User> users = new List<>();
 
     public void addUser(User user){
-        System.out.println("Adding user: " + user);
         users.push(user);
     }
 

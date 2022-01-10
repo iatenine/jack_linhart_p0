@@ -20,8 +20,6 @@ public class AccountTests {
     @BeforeAll
     public static void initStuff(){
         user = new User(username, password);
-        assertTrue(user != null);
-
         user.createAccount("checking");
         user.createAccount("savings");
 
@@ -39,12 +37,16 @@ public class AccountTests {
     @Test
     public void testAccountCreation(){
         Account a;
-        user.createAccount("checking");
+        Account[] arr;
         a = user.getAccount("checking");
+        arr = user.getAccounts();
 
         assertNotNull(a);
+        assertEquals(a.getName(), "checking");
 
-        System.out.println("Account creation test passed");
+        assertEquals(arr.length, 2);
+        assertEquals("checking", arr[0].getName());
+        assertEquals("savings", arr[1].getName());
     }
 
     @Test

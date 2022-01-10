@@ -79,7 +79,6 @@ public class Menu {
                 String username = getString("Enter username");
                 String password = getString("Enter password");
                 User u = db.login(username, password);
-//                User u = (User) o;
                 if(u == null)
                     System.out.println("login rejected");
                 setCurrentUser(u);
@@ -97,9 +96,27 @@ public class Menu {
         switch (option) {
             case 0 -> {
                 String s = getString("Provide a name for this account");
-                setCurrentAccount(new Account(currentUser, s));
+                currentUser.createAccount(s);
+                Account a = currentUser.getAccount(s);
+                setCurrentAccount(a);
             }
-            case 1 -> System.out.println("Coming soon");
+            case 1 -> {
+                // Get all accounts
+//                currentUser.get
+                Account[] accounts = currentUser.getAccounts();
+                String[] names = new String[accounts.length];
+                for (int i = 0; i < accounts.length; i++) {
+                    names[i] = accounts[i].getName();
+                    System.out.println(names[i]);
+                }
+                if(accounts.length > 0) {
+                    int select = getSelection("Select an account", names);
+                    setCurrentAccount(accounts[select]);
+                }
+                else{
+                    System.out.println("No accounts found");
+                }
+            }
             default -> setCurrentUser(null);
         }
 

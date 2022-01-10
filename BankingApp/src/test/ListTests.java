@@ -22,15 +22,15 @@ public class ListTests {
             "Stocks"
     };
     Account[] accounts = {
-            new Account(user, accountNames[0]),
-            new Account(user, accountNames[1]),
-            new Account(user, accountNames[2]),
-            new Account(user, accountNames[3]),
-            new Account(user, accountNames[4]),
-            new Account(user, accountNames[5]),
-            new Account(user, accountNames[6]),
-            new Account(user, accountNames[7]),
-            new Account(user, accountNames[8])
+            new Account(accountNames[0]),
+            new Account(accountNames[1]),
+            new Account(accountNames[2]),
+            new Account(accountNames[3]),
+            new Account(accountNames[4]),
+            new Account(accountNames[5]),
+            new Account(accountNames[6]),
+            new Account(accountNames[7]),
+            new Account(accountNames[8])
     };
 
 

@@ -5,11 +5,9 @@ import java.text.DecimalFormat;
 
 public class Account {
     private double amount = 0; // Amount of *cents* in account
-    private User owner;
     String name;
 
-    public Account(User owner, String name){
-        this.owner = owner;
+    public Account(String name){
         this.name = name;
     }
 
@@ -28,10 +26,12 @@ public class Account {
     }
 
     // Getter/Setters
+    public String getName() {return name;}
     public double getBalance(){
         return this.amount;
     }
 
+    public void setName(String name) {this.name = name;}
     public void setBalance(double newValue){ amount = newValue; }
 
     //override toString

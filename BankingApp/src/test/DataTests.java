@@ -18,7 +18,6 @@ public class DataTests {
     @Test
     public void testLogin(){
         User u = db.login("Frank", "password");
-//        User u = (User) o;
         assertNotNull(u);
         assertEquals(u.getUsername(), "Frank");
 
