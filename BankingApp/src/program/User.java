@@ -1,13 +1,11 @@
 package program;
 
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.DataValidationException;
-
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class User {
-    private String username;
-    private String password;
-    private ArrayList<Account> accounts = new ArrayList<>(); //Can't use built-in Collections. Need to implement manually
+    private final String username;
+    private final String password;
+    private final List<Account> accounts = new List<>();
 
     // User needs a password
     public User(String username, String password){
@@ -17,11 +15,11 @@ public class User {
 
     public void createAccount(String name){
         Account newAccount = new Account(this, name);
-        accounts.add(newAccount);
+        accounts.push(newAccount);
     }
 
     public boolean checkPassword(String password){
-        return this.password == password;
+        return Objects.equals(this.password, password);
     }
 
     public String getUsername() {
@@ -29,10 +27,14 @@ public class User {
     }
 
     public Account getAccount(String name){
-        Account ret = new Account(new User("", ""), "");
-        for(Account test : accounts){
-            if(test.name == name)
-                ret = test;
+        Account ret = null;
+        Object[] accountArr = accounts.getItems();
+        for(Object test : accountArr){
+            Account a = (Account) test;
+            if(Objects.equals(a.name, name)) {
+                ret = a;
+                break;
+            }
         }
         return ret;
     }

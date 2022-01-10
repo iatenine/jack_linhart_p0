@@ -13,18 +13,13 @@ public class UserTests {
     final static String password = "password";
 
     //Stories:
-    // Register a new user with password - initStuff()
     // Login with credentials - testPassword()... kinda...
-    // Create at least one account
-    // Deposit funds using doubles
-    // Withdraw funds from an account (no overdrafting allowed)
-    // View the balance of my accounts with proper formatting
 
     // Should be able to create user
     @BeforeAll
     public static void initStuff(){
         user = new User(username, password);
-        assertTrue(user != null);
+        assertNotNull(user);
     }
 
     @Test
@@ -32,7 +27,7 @@ public class UserTests {
         user.createAccount("checking");
         user.createAccount("savings");
 
-        Account checking = user.getAccount("checking");
+        Object checking = user.getAccount("checking");
         Account savings = user.getAccount("savings");
 
         assertNotNull(checking);
@@ -48,6 +43,11 @@ public class UserTests {
         assertFalse(result);
 
         System.out.println("Password test passed");
+    }
+
+    @Test
+    public void testGetUsername(){
+        assertEquals(username, user.getUsername());
     }
 
 }
