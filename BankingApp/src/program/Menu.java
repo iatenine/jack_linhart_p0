@@ -102,7 +102,6 @@ public class Menu {
             }
             case 1 -> {
                 // Get all accounts
-//                currentUser.get
                 Account[] accounts = currentUser.getAccounts();
                 String[] names = new String[accounts.length];
                 for (int i = 0; i < accounts.length; i++) {
