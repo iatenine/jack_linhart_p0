@@ -57,7 +57,15 @@ public class Menu {
             String[] optionList = this.options[menuIndex];
             int selection = getSelection(message, optionList);
 
-            setCurrentUser(null);
+            // Create methods for the other 2 menus
+            switch (menuIndex) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                default:
+                    runMainOptions(selection);
+            }
         }
     }
 
@@ -65,11 +73,13 @@ public class Menu {
         switch (option){
             // Create new User
             case 0:
-                String s = getString("Provide a name for the new account");
-
+                String userName = getString("Provide a name for the new user");
+                String p = getString("Enter a password");
+                currentUser = new User(userName, p);
                 break;
             // Login
             case 1:
+                System.out.println("Need a mock data layer for this to work");
                 break;
             // Exit program
             default:

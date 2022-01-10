@@ -8,7 +8,7 @@ public class Account {
     private User owner;
     String name;
 
-    Account(User owner, String name){
+    public Account(User owner, String name){
         this.owner = owner;
         this.name = name;
     }
