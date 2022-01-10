@@ -12,16 +12,6 @@ import java.util.Scanner;
  */
 
 public class Menu {
-    /**
-     * Displays a message and list of options for user to select
-     * @param message
-     * Message to display at top of option list
-     * @param options
-     * Array of strings corresponding to each option
-     * @return
-     * int representing the index of the option the user selected
-     */
-
     User currentUser = null;
     Account currentAccount = null;
 
@@ -40,7 +30,6 @@ public class Menu {
             {
                     "Deposit",
                     "Withdraw",
-                    "Check Balance",
                     "Exit"
             }
     };
@@ -59,32 +48,65 @@ public class Menu {
 
             // Create methods for the other 2 menus
             switch (menuIndex) {
-                case 1:
-                    break;
-                case 2:
-                    break;
-                default:
-                    runMainOptions(selection);
+                case 1 -> runUserOptions(selection);
+                case 2 -> {
+                    System.out.println("Current Account");
+                    System.out.println(currentAccount);
+                    runAccountOptions(selection);
+                }
+                default -> runMainOptions(selection);
             }
         }
     }
 
     public void runMainOptions(int option){
-        switch (option){
+        switch (option) {
             // Create new User
-            case 0:
+            case 0 -> {
                 String userName = getString("Provide a name for the new user");
                 String p = getString("Enter a password");
-                currentUser = new User(userName, p);
-                break;
+                setCurrentUser(new User(userName, p));
+            }
             // Login
-            case 1:
-                System.out.println("Need a mock data layer for this to work");
-                break;
+            case 1 -> System.out.println("Need a mock data layer for this to work");
+
             // Exit program
-            default:
-                System.exit(0);
-                break;
+            default -> System.exit(0);
+        }
+    }
+
+    public void runUserOptions(int option){
+        // Create account
+        // Manage account
+        // Log out
+        switch (option) {
+            case 0 -> {
+                String s = getString("Provide a name for this account");
+                setCurrentAccount(new Account(currentUser, s));
+            }
+            case 1 -> System.out.println("Coming soon");
+            default -> setCurrentUser(null);
+        }
+
+    }
+
+    public void runAccountOptions(int option){
+        // Deposit
+        // Withdraw
+        // Exit
+        switch (option) {
+            case 0 -> {
+                double deposit = getDoublePositive("How much would you like to deposit?");
+                currentAccount.deposit(deposit);
+            }
+            case 1 -> {
+                double withdraw = getDoublePositive("How much would you like to withdraw?");
+                double received = currentAccount.withdraw(withdraw);
+                if (received == 0)
+                    System.out.println("You cannot withdraw more than your account balance");
+                System.out.println("You received $" + received);
+            }
+            default -> setCurrentAccount(null);
         }
     }
 
@@ -96,6 +118,15 @@ public class Menu {
         currentAccount = account;
     }
 
+    /**
+     * Displays a message and list of options for user to select
+     * @param message
+     * Message to display at top of option list
+     * @param options
+     * Array of strings corresponding to each option
+     * @return
+     * int representing the index of the option the user selected
+     */
     public int getSelection(String message, String[] options){
         Scanner scanner = new Scanner(System.in);
 
@@ -123,5 +154,21 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         System.out.println(message);
         return scanner.next();
+    }
+
+    public double getDouble(String message){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(message);
+        return scanner.nextDouble();
+    }
+
+    public double getDoublePositive(String message){
+        double ret = 0;
+        while (ret <= 0){
+            ret = getDouble(message);
+            if(ret <= 0)
+                System.out.println("Amount must be greater than 0");
+        }
+        return ret;
     }
 }
