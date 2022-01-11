@@ -4,6 +4,7 @@
 ../out
 ../out/
 out/
+out/*
 *.iml
 .env
 *.class
