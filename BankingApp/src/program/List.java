@@ -1,7 +1,5 @@
 package program;
 
-// Implement Link List to hold dynamic collection of Accounts
-
 /**
  * Holds a dynamically resized array of any object
  * @param <T>
@@ -12,8 +10,6 @@ public class List<T> {
     final private int step = 5;
     private int tail = 0;
     private T[] list = (T[]) new Object[step];
-
-    // Add an account
 
     /**
      * Add an item to the tail of the list
