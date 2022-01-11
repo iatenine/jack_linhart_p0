@@ -5,6 +5,7 @@ import data.MockDb;
 import java.util.Scanner;
 
 /**
+ * @author Jack Linhart
  * Handles UI interactions such as displaying user options
  *
  * 3 menus
@@ -14,12 +15,16 @@ import java.util.Scanner;
  */
 
 public class Menu {
-    User currentUser = null;
-    Account currentAccount = null;
-    final MockDb db = new MockDb();
-
-    String message = "What would you like to do?";
-    String[][] options = {
+    /**
+     * Declare class scope variables
+     * currentUser: Currently logged in user, set to null when logged out
+     * currentAccount: Currently selected account, set to null when not managing an account
+     * options: A 2-Dimensional String array of options for each menu items to pass to getSelection()
+     */
+    private User currentUser = null;
+    private Account currentAccount = null;
+    private final MockDb db = new MockDb();
+    private final String[][] options = {
             {
                     "Register User",
                     "Login",
@@ -37,7 +42,11 @@ public class Menu {
             }
     };
 
+    /**
+     * Begins execution of menus
+     */
     public void runMenu(){
+        String message = "What would you like to do?";
         while(true) {
             int menuIndex;
             if (currentUser == null)
@@ -64,7 +73,15 @@ public class Menu {
         }
     }
 
-    public void runMainOptions(int option){
+    /**
+     * Default menu to be run when user isn't logged in
+     * @param option
+     * int representing what action to perform.
+     * 0: Create new User
+     * 1: Login
+     * default: Exit Program
+     */
+    private void runMainOptions(int option){
         switch (option) {
             // Create new User
             case 0 -> {
@@ -89,10 +106,15 @@ public class Menu {
         }
     }
 
-    public void runUserOptions(int option){
-        // Create account
-        // Manage account
-        // Log out
+    /**
+     * Menu to be executed for an authenticated user when no account is selected
+     * @param option
+     * int representing what action to perform
+     * 0: Create Account
+     * 1: Manage Account
+     * Default: Log Out
+     */
+    private void runUserOptions(int option){
         switch (option) {
             case 0 -> {
                 String s = getString("Provide a name for this account");
@@ -121,17 +143,22 @@ public class Menu {
 
     }
 
-    public void runAccountOptions(int option){
-        // Deposit
-        // Withdraw
-        // Exit
+    /**
+     * Menu to be executed when no account is selected
+     * @param option
+     * int representing what action to perform
+     * 0: Deposit
+     * 1: Withdraw
+     * Default: Deselect Account (Exit)
+     */
+    private void runAccountOptions(int option){
         switch (option) {
             case 0 -> {
-                double deposit = getDoublePositive("How much would you like to deposit?");
+                double deposit = getDouble("How much would you like to deposit?", 0);
                 currentAccount.deposit(deposit);
             }
             case 1 -> {
-                double withdraw = getDoublePositive("How much would you like to withdraw?");
+                double withdraw = getDouble("How much would you like to withdraw?", 0);
                 double received = currentAccount.withdraw(withdraw);
                 if (received == 0)
                     System.out.println("You cannot withdraw more than your account balance");
@@ -141,16 +168,26 @@ public class Menu {
         }
     }
 
-    public void setCurrentUser(User user){
+    /**
+     * Setter for currentUser
+     * @param user
+     * new currentUser
+     */
+    private void setCurrentUser(User user){
         currentUser = user;
     }
 
-    public void setCurrentAccount(Account account){
+    /**
+     * Setter for currentAccount
+     * @param account
+     * new currentAccount
+     */
+    private void setCurrentAccount(Account account){
         currentAccount = account;
     }
 
     /**
-     * Displays a message and list of options for user to select
+     * Displays a message, lists options and returns the index of the option selected
      * @param message
      * Message to display at top of option list
      * @param options
@@ -158,10 +195,8 @@ public class Menu {
      * @return
      * int representing the index of the option the user selected
      */
-    public int getSelection(String message, String[] options){
+    private int getSelection(String message, String[] options){
         Scanner scanner = new Scanner(System.in);
-
-        // What would you like to do?
         System.out.println(message);
 
         // Dropdown list of items
@@ -181,25 +216,49 @@ public class Menu {
         return response - 1;
     }
 
-    public String getString(String message){
+    /**
+     * Display message and return user input as String
+     * @param message
+     * Message to prompt user
+     * @return
+     * Next String user inputs into console
+     */
+    private String getString(String message){
         Scanner scanner = new Scanner(System.in);
         System.out.println(message);
         return scanner.next();
     }
 
-    public double getDouble(String message){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(message);
-        return scanner.nextDouble();
-    }
 
-    public double getDoublePositive(String message){
+    /**
+     * Overload getDouble(String) to require a minimum
+     * @param message
+     * Message to prompt the user
+     * @param min
+     * Do not accept user input below this value
+     * @return
+     * Next valid double user inputs into console
+     */
+    private double getDouble(String message, int min){
         double ret = 0;
-        while (ret <= 0){
+        while (ret <= min){
             ret = getDouble(message);
-            if(ret <= 0)
+            if(ret <= min)
                 System.out.println("Amount must be greater than 0");
         }
         return ret;
+    }
+
+    /**
+     * Prompt user for a double value
+     * @param message
+     * Message to prompt the user
+     * @return
+     * Next valid double user inputs into console
+     */
+    private double getDouble(String message){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(message);
+        return scanner.nextDouble();
     }
 }
