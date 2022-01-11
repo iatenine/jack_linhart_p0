@@ -7,6 +7,8 @@ out/
 *.iml
 .env
 *.class
+../BankingApp/out
+../BankingApp/*.iml
 
 #User specific stuff
 .idea/**/workspace.xml
