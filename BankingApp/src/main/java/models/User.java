@@ -1,5 +1,8 @@
 package models;
 
+import util.List;
+import util.Node;
+
 import java.util.Objects;
 
 /**
@@ -36,7 +39,7 @@ public class User {
      */
     public void createAccount(String name){
         Account newAccount = new Account(name);
-        accounts.push(newAccount);
+        accounts.add(newAccount);
     }
 
     /**
@@ -60,16 +63,11 @@ public class User {
      * Account with matching name if found
      */
     public Account getAccount(String name){
-        Account ret = null;
-        Object[] accountArr = accounts.getItems();
-        for(Object test : accountArr){
-            Account a = (Account) test;
-            if(Objects.equals(a.name, name)) {
-                ret = a;
-                break;
-            }
+        Node<Account> a = accounts.head;
+        while(a.data.getName() != name && a != null){
+            a = a.next;
         }
-        return ret;
+        return a.data;
     }
 
     /**
@@ -78,14 +76,11 @@ public class User {
      * Full array of accounts owned by this User
      */
     public Account[] getAccounts(){
-        Object[] o = accounts.getItems();
-        Account[] ret = new Account[o.length];
-        for (int i = 0; i < o.length; i++) {
-            if(o[i] == null)
-                continue;
-            ret[i] = (Account) o[i];
+        Account [] accountArr = new Account[accounts.length];
+        for (int i = 0; i < accountArr.length; i++) {
+            accountArr[i] = accounts.getAtIndex(i);
         }
-        return ret;
+        return accountArr;
     }
 
     @Override

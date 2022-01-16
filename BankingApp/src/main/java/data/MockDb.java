@@ -1,6 +1,6 @@
 package data;
 
-import models.List;
+import util.List;
 import models.User;
 
 /**
@@ -19,7 +19,7 @@ public class MockDb {
      * user to add
      */
     public void addUser(User user){
-        users.push(user);
+        users.add(user);
     }
 
     /**
@@ -32,7 +32,7 @@ public class MockDb {
      * User object matching username and password input if found in users List
      */
     public User login(String username, String password){
-        Object[] allUsers = users.getItems();
+        Object[] allUsers = null;// = users.getItems();
         User ret = null;
 
         for(Object o : allUsers){
