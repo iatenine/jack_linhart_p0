@@ -1,9 +1,9 @@
 package test;
 
+import models.Account;
+import models.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import program.Account;
-import program.User;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AccountTests {
     static User user;
     final static String username = "testUser";
-    final static String password = "password";
+    final static int id = 45;
 
     static Account checking;
     static Account savings;
@@ -19,7 +19,7 @@ public class AccountTests {
     // Should be able to create user
     @BeforeAll
     public static void initStuff(){
-        user = new User(username, password);
+        user = new User(id, username);
         user.createAccount("checking");
         user.createAccount("savings");
 

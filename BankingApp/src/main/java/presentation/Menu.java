@@ -1,6 +1,8 @@
-package program;
+package presentation;
 
 import data.MockDb;
+import models.Account;
+import models.User;
 
 import java.util.Scanner;
 
@@ -87,9 +89,9 @@ public class Menu {
             case 0 -> {
                 String userName = getString("Provide a name for the new user");
                 String p = getString("Enter a password");
-                User u = new User(userName, p);
-                db.addUser(u);
-                setCurrentUser(u);
+//                User u = new User(userName, p);
+//                db.addUser(u);
+//                setCurrentUser(u);
             }
             // Login
             case 1 -> {

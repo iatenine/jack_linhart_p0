@@ -1,4 +1,4 @@
-package program;
+package models;
 
 import java.util.Objects;
 
@@ -14,19 +14,19 @@ public class User {
      * accounts: List of all accounts owned by a user
      */
     private final String username;
-    private final String password;
+    private final int id;
     private final List<Account> accounts = new List<>();
 
     /**
      * Constructor to create a new user
      * @param username
      * new User's username
-     * @param password
-     * new User's password
+     * @param id
+     * User's id in the database
      */
-    public User(String username, String password){
+    public User(int id, String username){
         this.username = username;
-        this.password = password;
+        this.id = id;
     }
 
     /**
@@ -40,23 +40,16 @@ public class User {
     }
 
     /**
-     * Check if a password is correct
-     * @param password
-     * Password entered
-     * @return
-     * Boolean representing if User's password matches password input
-     */
-    public boolean checkPassword(String password){
-        return Objects.deepEquals(this.password, password);
-    }
-
-    /**
      * Getter for username
      * @return
      * String representing User's username
      */
     public String getUsername() {
         return username;
+    }
+
+    public int getId() {
+        return id;
     }
 
     /**
@@ -93,5 +86,14 @@ public class User {
             ret[i] = (Account) o[i];
         }
         return ret;
+    }
+
+    @Override
+    public String toString() {
+        return "User{\n" +
+                "username='" + username + '\'' +
+                ", id=" + id +
+                ", accounts=" + accounts +
+                "\n}";
     }
 }

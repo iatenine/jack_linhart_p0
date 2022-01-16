@@ -1,7 +1,7 @@
 package data;
 
-import program.List;
-import program.User;
+import models.List;
+import models.User;
 
 /**
  * @author Provides a mock data layer until a real database is connected
@@ -39,11 +39,11 @@ public class MockDb {
             User u = (User) o;  //Why...?
             if(u == null)
                 continue;
-            if(username.equals(u.getUsername()) && u.checkPassword(password))
-            {
-                ret = u;
-                break;
-            }
+//            if(username.equals(u.getUsername()) && u.checkPassword(password))
+//            {
+//                ret = u;
+//                break;
+//            }
         }
         return ret;
     }

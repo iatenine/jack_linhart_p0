@@ -3,13 +3,11 @@ package test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import program.Account;
-import program.List;
-import program.User;
+import models.Account;
+import models.List;
 
 public class ListTests {
     static List<Account> list;
-    User user = new User("name", "pass");
     String[] accountNames = {
             "checking",
             "savings",

@@ -1,4 +1,4 @@
-package program;
+package models;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
