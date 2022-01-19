@@ -18,7 +18,7 @@ public class AccountRepo implements IAccountRepo{
 
         try {
             Account a;
-            a = ar.deleteAccount(1);
+            a = ar.addAccount("Experimental");
             System.out.println(a);
         } catch (SQLException e) {
             e.printStackTrace();
