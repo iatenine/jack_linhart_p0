@@ -38,7 +38,8 @@ public class User {
      * Name of new account
      */
     public void createAccount(String name){
-        Account newAccount = new Account(name);
+        // TODO: Get id from repo
+        Account newAccount = new Account(2, name);
         accounts.add(newAccount);
     }
 
@@ -64,7 +65,7 @@ public class User {
      */
     public Account getAccount(String name){
         Node<Account> a = accounts.head;
-        while(a.data.getName() != name && a != null){
+        while(!a.data.getName().equals(name) && a.data != null){
             a = a.next;
         }
         return a.data;

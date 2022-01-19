@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
  */
 
 public class Account {
+    private int id;
     private double amount = 0; // Amount of *cents* in account
     String name;
 
@@ -17,7 +18,8 @@ public class Account {
      * @param name
      * What the name of the Account will be
      */
-    public Account(String name){
+    public Account(int id, String name){
+        setId(id);
         setName(name);
     }
 
@@ -61,12 +63,20 @@ public class Account {
         return this.amount;
     }
 
+    public int getId() {
+        return id;
+    }
+
     /**
      * Setter for name
      * @param name
      * new name
      */
     public void setName(String name) {this.name = name;}
+
+    private void setId(int id) {
+        this.id = id;
+    }
 
     /**
      * Setter for amount

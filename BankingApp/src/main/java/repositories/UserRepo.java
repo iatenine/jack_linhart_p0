@@ -1,7 +1,6 @@
 package repositories;
 
 import models.User;
-import util.JDBCConnection;
 import util.SqlHelpers;
 
 import java.sql.Connection;
@@ -11,7 +10,12 @@ import java.sql.SQLException;
 
 public class UserRepo implements IUserRepo {
 
-    static Connection conn = JDBCConnection.getConnection();
+    Connection conn;
+//    static Connection conn = JDBCConnection.getConnection();
+
+    public UserRepo(Connection conn){
+        this.conn = conn;
+    }
 
     @Override
     public User addUser(String username, String password) throws SQLException {
@@ -45,7 +49,7 @@ public class UserRepo implements IUserRepo {
 
     @Override
     public User updateUser(User change, String newPassword, String oldPassword) throws SQLException {
-        if(checkLogin(change.getId(), oldPassword) == false) return null;
+        if(!checkLogin(change.getId(), oldPassword)) return null;
         String sql = "UPDATE users SET pw=? WHERE u_id=? RETURNING *";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, newPassword);
@@ -53,11 +57,11 @@ public class UserRepo implements IUserRepo {
         return buildUser(ps);
     }
 
-    public static boolean checkLogin(User u, String password) throws SQLException {
+    public boolean checkLogin(User u, String password) throws SQLException {
         return checkLogin(u.getId(), password);
     }
 
-    private static boolean checkLogin(int u_id, String password) throws SQLException {
+    private boolean checkLogin(int u_id, String password) throws SQLException {
         PreparedStatement ps = conn.prepareStatement("SELECT pw FROM users WHERE u_id=?");
         ps.setInt(1, u_id);
         ResultSet rs = ps.executeQuery();

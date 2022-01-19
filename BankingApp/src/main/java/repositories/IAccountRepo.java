@@ -2,9 +2,11 @@ package repositories;
 
 import models.Account;
 
+import java.sql.SQLException;
+
 public interface IAccountRepo {
-    public Account addAccount(String name, double initialBalance);
-    public Account getAccount(int a_id);
-    public Account updateAccount(int owner_id, Account update);
-    public Account deleteAccount(int owner_id, String password, int a_id);
+    Account addAccount(String name) throws SQLException;
+    Account getAccount(int a_id) throws SQLException;
+    Account updateAccount(Account update) throws SQLException;
+    Account deleteAccount(int a_id) throws SQLException;
 }
