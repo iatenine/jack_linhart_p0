@@ -43,7 +43,6 @@ public class UserRepo implements IUserRepo {
         String sql = "DELETE FROM users WHERE u_id=? RETURNING *";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, u_id);
-        ps.setString(2, password);
         return buildUser(ps);
     }
 
