@@ -3,9 +3,10 @@ package services;
 import models.User;
 import repositories.UserRepo;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
-public class UserService {
+public class UserService implements Service {
 
     /*
     * Sometimes your actual goal at some point in your application
@@ -26,12 +27,35 @@ public class UserService {
      */
 
     // Use dependency injection to prevent needless duplication
-    private UserRepo mr;
-    public UserService(UserRepo m){
-        this.mr = m;
+    final private UserRepo mr;
+    public UserService(Connection conn){
+        this.mr = new UserRepo(conn);
     }
 
-    public User addUser(String username, String password) throws SQLException {
+    public User add(String username, String password) throws SQLException {
         return mr.addUser(username, password);
+    }
+
+    // getUser
+    public User get(int user_id) throws SQLException {
+        return mr.getUser(user_id);
+    }
+
+    // updateUser
+    public User updateUser(User change, String oldPassword, String newPassword) throws SQLException {
+        return mr.updateUser(change, oldPassword, newPassword);
+    }
+
+    public User update(User change, String password) throws SQLException {
+        return updateUser(change, password, password);
+    }
+
+    // deleteUser
+    public User delete(int user_id, String password) throws SQLException {
+        return mr.deleteUser(user_id, password);
+    }
+
+    public User checkLogin(String username, String password) throws SQLException {
+        return mr.login(username, password);
     }
 }

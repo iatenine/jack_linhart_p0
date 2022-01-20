@@ -1,8 +1,12 @@
 package test.repo;
 
 import models.Account;
+import models.User;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import repositories.AccountRepo;
+import repositories.UserRepo;
 import util.JDBCConnection;
 
 import java.sql.Connection;
@@ -12,10 +16,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AccountRepoTest {
-    Connection conn = JDBCConnection.getConnection();
+    static Connection conn = JDBCConnection.getConnection();
     AccountRepo ar = new AccountRepo(conn);
+    static UserRepo ur = new UserRepo(conn);
+    static User u = null;
     Account testAccount = null;
     Account differentAccount = null;
+
+    @BeforeAll
+    public static void setup(){
+        try {
+            u = ur.addUser("testUser", "testPassword");
+            assertNotNull(u);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     // Need to do all together as ids returned will be necessary
     @Test
@@ -25,8 +41,8 @@ public class AccountRepoTest {
             int secondId;
 
             // Create
-            testAccount = ar.addAccount("Test Account");
-            differentAccount = ar.addAccount("Different");
+            testAccount = ar.addAccount("Test Account", u.getId());
+            differentAccount = ar.addAccount("Different", u.getId());
 
             firstId = testAccount.getId();
             secondId = differentAccount.getId();
@@ -56,6 +72,16 @@ public class AccountRepoTest {
             // Ensure the elements are indeed removed from the database
             assertNull(ar.getAccount(firstId));
             assertNull(ar.getAccount(secondId));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @AfterAll
+    public static void cleanup() {
+        try {
+            u = ur.deleteUser(u.getId(), "testPassword");
+            assertNotNull(u);
         } catch (SQLException e) {
             e.printStackTrace();
         }

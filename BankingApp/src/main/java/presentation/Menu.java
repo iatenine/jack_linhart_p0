@@ -1,9 +1,12 @@
 package presentation;
 
-import data.MockDb;
+import controllers.BankController;
 import models.Account;
+import models.Transaction;
 import models.User;
+import util.JDBCConnection;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -25,8 +28,8 @@ public class Menu {
      */
     private User currentUser = null;
     private Account currentAccount = null;
-    private final MockDb db = new MockDb();
-    private final String[][] options = {
+    final private BankController bankController = new BankController(JDBCConnection.getConnection());
+    final private String[][] options = {
             {
                     "Register User",
                     "Login",
@@ -40,6 +43,7 @@ public class Menu {
             {
                     "Deposit",
                     "Withdraw",
+                    "View History",
                     "Exit"
             }
     };
@@ -47,7 +51,7 @@ public class Menu {
     /**
      * Begins execution of menus
      */
-    public void runMenu(){
+    public void runMenu() throws SQLException {
         String message = "What would you like to do?";
         while(true) {
             int menuIndex;
@@ -83,21 +87,20 @@ public class Menu {
      * 1: Login
      * default: Exit Program
      */
-    private void runMainOptions(int option){
+    private void runMainOptions(int option) throws SQLException {
         switch (option) {
             // Create new User
             case 0 -> {
                 String userName = getString("Provide a name for the new user");
                 String p = getString("Enter a password");
-//                User u = new User(userName, p);
-//                db.addUser(u);
-//                setCurrentUser(u);
+                User u = bankController.getUserService().add(userName, p);
+                setCurrentUser(u);
             }
             // Login
             case 1 -> {
                 String username = getString("Enter username");
                 String password = getString("Enter password");
-                User u = db.login(username, password);
+                User u = bankController.getUserService().checkLogin(username, password);
                 if(u == null)
                     System.out.println("login rejected");
                 setCurrentUser(u);
@@ -116,17 +119,16 @@ public class Menu {
      * 1: Manage Account
      * Default: Log Out
      */
-    private void runUserOptions(int option){
+    private void runUserOptions(int option) throws SQLException {
         switch (option) {
             case 0 -> {
                 String s = getString("Provide a name for this account");
-                currentUser.createAccount(s);
-                Account a = currentUser.getAccount(s);
+                Account a = bankController.getAccountService().add(s, currentUser.getId());
                 setCurrentAccount(a);
             }
             case 1 -> {
                 // Get all accounts
-                Account[] accounts = currentUser.getAccounts();
+                Account[] accounts = bankController.getAccountService().getAll(currentUser.getId());
                 String[] names = new String[accounts.length];
                 for (int i = 0; i < accounts.length; i++) {
                     names[i] = accounts[i].getName();
@@ -151,20 +153,31 @@ public class Menu {
      * int representing what action to perform
      * 0: Deposit
      * 1: Withdraw
+     * 2: View History
      * Default: Deselect Account (Exit)
      */
-    private void runAccountOptions(int option){
+    private void runAccountOptions(int option) throws SQLException {
         switch (option) {
             case 0 -> {
                 double deposit = getDouble("How much would you like to deposit?", 0);
-                currentAccount.deposit(deposit);
+                bankController.getTransactionService().add(currentAccount, deposit);
+                currentAccount.setBalance(bankController.getAccountService().get(currentAccount.getId()).getBalance());
             }
             case 1 -> {
                 double withdraw = getDouble("How much would you like to withdraw?", 0);
-                double received = currentAccount.withdraw(withdraw);
-                if (received == 0)
+                if (withdraw <= currentAccount.getBalance()){
+                    bankController.getTransactionService().add(currentAccount, -withdraw);
+                    currentAccount.setBalance(bankController.getAccountService().get(currentAccount.getId()).getBalance());
+                }
+                else
                     System.out.println("You cannot withdraw more than your account balance");
-                System.out.println("You received $" + received);
+                System.out.println("You received $" + withdraw);
+            }
+            case 2 ->{
+                Transaction[] history = bankController.getTransactionService().getHistory(currentAccount.getId());
+                for (Transaction t : history) {
+                    System.out.println(t);
+                }
             }
             default -> setCurrentAccount(null);
         }

@@ -1,5 +1,8 @@
 package models;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Transaction {
     final private double amount;
     final private long date;
@@ -21,4 +24,11 @@ public class Transaction {
     }
 
     public int getId() { return id; }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sf = new SimpleDateFormat();
+        return "id: " + id +" | date=" + sf.format(date) +
+                " | amount:" + amount;
+    }
 }

@@ -1,8 +1,6 @@
 package repositories;
 
 import models.User;
-import util.SqlHelpers;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +9,6 @@ import java.sql.SQLException;
 public class UserRepo implements IUserRepo {
 
     Connection conn;
-//    static Connection conn = JDBCConnection.getConnection();
 
     public UserRepo(Connection conn){
         this.conn = conn;
@@ -19,22 +16,33 @@ public class UserRepo implements IUserRepo {
 
     @Override
     public User addUser(String username, String password) throws SQLException {
-        PreparedStatement insertRecord = SqlHelpers.getInsertStatement(
-                conn,
-                "users",
-                new String[] {username, password});
-        return buildUser(insertRecord);
+        String sql = "INSERT INTO users VALUES(default, ?, ?) RETURNING *";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, username);
+        ps.setString(2, password);
+
+        return buildUser(ps);
     }
 
     @Override
     public User getUser(int u_id) throws SQLException {
-        PreparedStatement ps = SqlHelpers.getSelectStatement(
-                conn,
-                "users",
-                new String[]{"*"},
-                "u_id='" + u_id + "'"
-        );
+        String sql = "SELECT * FROM users WHERE u_id=?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, u_id);
+
         return buildUser(ps);
+    }
+
+    @Override
+    public User login(String username, String password) throws SQLException {
+        String sql = "SELECT * FROM users where username ILIKE ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, username);
+        User check = buildUser(ps);
+        if(!checkLogin(check, password))
+            return null;
+        return check;
     }
 
     @Override

@@ -56,8 +56,6 @@ public class ListTests {
         }
         assertNotNull(arr);
         assertEquals(arr.length, 2);
-        System.out.println(arr[0]);
-        System.out.println(arr[1]);
 
         assertNotNull(arr[0]);
         assertNotNull(arr[1]);
