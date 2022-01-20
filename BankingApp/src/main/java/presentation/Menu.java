@@ -44,6 +44,7 @@ public class Menu {
                     "Deposit",
                     "Withdraw",
                     "View History",
+                    "Add User",
                     "Exit"
             }
     };
@@ -154,6 +155,7 @@ public class Menu {
      * 0: Deposit
      * 1: Withdraw
      * 2: View History
+     * 3: Add User
      * Default: Deselect Account (Exit)
      */
     private void runAccountOptions(int option) throws SQLException {
@@ -177,6 +179,17 @@ public class Menu {
                 Transaction[] history = bankController.getTransactionService().getHistory(currentAccount.getId());
                 for (Transaction t : history) {
                     System.out.println(t);
+                }
+            }
+            case 3 ->{
+                String newUsername = getString("What is the username of the user you would like to add to this account?");
+                User u = bankController.getUserService().get(newUsername);
+                if(u != null){
+                    bankController.getAccountService().addAuthorizedUser(u.getId(), currentAccount.getId());
+                    System.out.println("User " + u.getUsername() + " added as authorized user");
+                }
+                else {
+                    System.out.println("No user found");
                 }
             }
             default -> setCurrentAccount(null);

@@ -40,6 +40,9 @@ public class UserService implements Service {
     public User get(int user_id) throws SQLException {
         return mr.getUser(user_id);
     }
+    public User get(String username) throws SQLException{
+        return mr.getUser(username);
+    }
 
     // updateUser
     public User updateUser(User change, String oldPassword, String newPassword) throws SQLException {

@@ -25,6 +25,10 @@ public class AccountService implements Service{
         return ar.getAllAccounts(user_id);
     }
 
+    public boolean addAuthorizedUser(int user_id, int account_id) throws SQLException {
+        return ar.addAuthorizedUser(user_id, account_id);
+    }
+
     public Account update(Account update) throws SQLException{
         return ar.updateAccount(update);
     }

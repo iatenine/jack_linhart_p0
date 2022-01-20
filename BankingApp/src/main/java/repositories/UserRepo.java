@@ -34,6 +34,15 @@ public class UserRepo implements IUserRepo {
     }
 
     @Override
+    public User getUser(String username) throws SQLException{
+        String sql = "SELECT * FROM users WHERE username=?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, username);
+
+        return buildUser(ps);
+    }
+
+    @Override
     public User login(String username, String password) throws SQLException {
         String sql = "SELECT * FROM users where username ILIKE ?";
         PreparedStatement ps = conn.prepareStatement(sql);

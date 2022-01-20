@@ -23,13 +23,17 @@ public class AccountRepo implements IAccountRepo{
         Account newAccount = buildAccount(ps);
         if(newAccount == null) return null;
 
-        String newAssociation = "INSERT INTO useraccounts VALUES(?, ?) RETURNING *";
-        PreparedStatement ps2 = conn.prepareStatement(newAssociation);
-        ps2.setInt(1, user_id);
-        ps2.setInt(2, newAccount.getId());
-        ps2.executeQuery();
-
+        addAuthorizedUser(user_id, newAccount.getId());
         return buildAccount(ps);
+    }
+
+    public boolean addAuthorizedUser(int user_id, int account_id) throws SQLException {
+        String newAssociation = "INSERT INTO useraccounts VALUES(?, ?) RETURNING *";
+        PreparedStatement ps = conn.prepareStatement(newAssociation);
+        ps.setInt(1, user_id);
+        ps.setInt(2, account_id);
+        ResultSet rs = ps.executeQuery();
+        return rs!=null;
     }
 
     @Override
