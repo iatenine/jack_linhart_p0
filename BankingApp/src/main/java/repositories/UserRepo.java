@@ -49,6 +49,7 @@ public class UserRepo implements IUserRepo {
 
         ps.setString(1, username);
         User check = buildUser(ps);
+        if(check == null) return null;
         if(!checkLogin(check, password))
             return null;
         return check;

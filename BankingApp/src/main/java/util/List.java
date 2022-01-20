@@ -11,6 +11,13 @@ public class List<T> {
     public Node<T> tail = null;
     public int length = 0;
 
+
+    /**
+     * Add a new node to the end of the List
+     * @param data
+     * Instance of T to be held at this position in the List
+     */
+
     public void add(T data) {
         Node<T> newNode = new Node<T>(data);
         if(head == null) {
@@ -25,6 +32,12 @@ public class List<T> {
         }
         length++;
     }
+
+    /**
+     * Remove the last item in the list
+     * @return
+     * The removed item
+     */
 
     public T pop(){
         if(length == 0)
@@ -45,6 +58,12 @@ public class List<T> {
         return ret;
     }
 
+    /**
+     * Get the Node held at a specified index without removing it from the List
+     * @param index
+     * @return
+     * The item at the specified index
+     */
     public T getAtIndex(int index){
         if(index > length-1 || index < 0)
             return null;

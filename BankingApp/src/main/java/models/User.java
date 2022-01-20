@@ -3,8 +3,6 @@ package models;
 import util.List;
 import util.Node;
 
-import java.util.Objects;
-
 /**
  * @author Jack Linhart
  * Represents a single User
@@ -43,15 +41,9 @@ public class User {
         accounts.add(newAccount);
     }
 
-    /**
-     * Getter for username
-     * @return
-     * String representing User's username
-     */
     public String getUsername() {
         return username;
     }
-
     public int getId() {
         return id;
     }

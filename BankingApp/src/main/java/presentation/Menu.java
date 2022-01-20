@@ -53,8 +53,10 @@ public class Menu {
      * Begins execution of menus
      */
     public void runMenu() throws SQLException {
-        String message = "What would you like to do?";
         while(true) {
+            String message = currentUser != null && currentAccount==null ?
+                "Welcome, " + currentUser.getUsername() + "\nWhat would you like to do?" :
+                "What would you like to do?";
             int menuIndex;
             if (currentUser == null)
                 menuIndex = 0;
@@ -133,7 +135,6 @@ public class Menu {
                 String[] names = new String[accounts.length];
                 for (int i = 0; i < accounts.length; i++) {
                     names[i] = accounts[i].getName();
-                    System.out.println(names[i]);
                 }
                 if(accounts.length > 0) {
                     int select = getSelection("Select an account", names);
@@ -171,8 +172,10 @@ public class Menu {
                     bankController.getTransactionService().add(currentAccount, -withdraw);
                     currentAccount.setBalance(bankController.getAccountService().get(currentAccount.getId()).getBalance());
                 }
-                else
+                else {
                     System.out.println("You cannot withdraw more than your account balance");
+                    withdraw = 0;
+                }
                 System.out.println("You received $" + withdraw);
             }
             case 2 ->{

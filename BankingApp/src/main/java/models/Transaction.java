@@ -1,14 +1,28 @@
 package models;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
+/**
+ * @author Jack Linhart
+ * Represents a single Transaction. Holds immutable data only (are structs a thing in Java?)
+ */
 
 public class Transaction {
     final private double amount;
     final private long date;
     final private int id;
 
-    // All data for a transaction should be immutable after creation
+
+    /**
+     * Instantiates an instance of type Transaction
+     * @param id
+     * a_id provided by the database after a query
+     * @param amount
+     * The amount of the transaction. Deposits are positive, withdraws are negative
+     * @param time
+     * The time in milliseconds when the Transaction was created
+     */
+
     public Transaction(int id, double amount, long time) {
         this.amount = amount;
         this.date = time;
@@ -18,11 +32,9 @@ public class Transaction {
     public double getAmount() {
         return amount;
     }
-
     public long getDate() {
         return date;
     }
-
     public int getId() { return id; }
 
     @Override
